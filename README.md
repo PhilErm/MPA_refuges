@@ -27,11 +27,11 @@ Each level of overlap for each scenario has 3 unique scripts. For a particular e
 `HPC_log_mig_adam_ovr02_fishfav_sens_catch05.slurm`
 `pars_log_mig_adam_ovr02_fishfav_sens_catch05.R`
 
-To manually run this particular simulation, one would need to send `HPC_log_mig_adam_ovr02_fishfav_sens_catch05.slurm` to a computer with the Slurm Workload Manager. This would then run `facil_log_mig_adam_ovr02_fishfav_sens_catch05.R` using R on that computer, which itself then calls the scenarios unique parameter file `pars_log_mig_adam_ovr02_fishfav_sens_catch05.R` and the master scripts `species_parameters.R`, `functions.R`, `analysis.R`, and `analysis_figures.R` used in all simulations.
+To manually run this particular simulation, one would need to send `HPC_log_mig_adam_ovr02_fishfav_sens_catch05.slurm` to a computer with the Slurm Workload Manager. This would then run `facil_log_mig_adam_ovr02_fishfav_sens_catch05.R` using R on that computer, which itself then calls the scenario's unique parameter file `pars_log_mig_adam_ovr02_fishfav_sens_catch05.R` and the master scripts `species_parameters.R`, `functions.R`, `analysis.R`, and `analysis_figures.R` used in all simulations.
 
 That means, if you need to run the script on a computer without Slurm, all you need to do is run `facil_log_mig_adam_ovr02_fishfav_sens_catch05.R` in R and the eventual output should be identical. To easily do this across all simulation scripts, a simple bash script that sends all of the "facil" scripts to R should be sufficient. If you need help with such a script or any other aspect of reproducibility with the code please get in touch and I'll be happy to help.
 
-To easily run the script on another HPC, the .slurm scripts will need to be modified to accomodate the particular requirements of the HPC in question. This will change depending on the HPC, but will probably involve nominating your chosen partition, making sure job clock times etc. are suitable etc.
+To easily run the script on another HPC, the .slurm scripts will need to be modified to accomodate the particular requirements of the HPC in question. This will change depending on the HPC, but will probably involve nominating your chosen partition, making sure job clock times are suitable etc.
 
 ### If not rerunning simulations
 
