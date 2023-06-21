@@ -38,4 +38,4 @@ To easily run the script on another HPC, the .slurm scripts will need to be modi
 This repository already contains the processed data files used to generate the final figures included in the manuscript. As such, if you don't want to rerun the simulations themselves, after cloning the repository you can generate all figures if you:
 
 1. Run "analysis_sens_summary_figures.R" in R to generate the figures used in the manuscript. The instructions for running the script are included in the script itself.
-2. To generate the animations produced by the supplementary model, run "supplementary_model.R" in R. The instructions for running the script are included in the script itself.
+2. Run "supplementary_model.R" in R to generate the animations produced by the supplementary model. The instructions for running the script are included in the script itself.
