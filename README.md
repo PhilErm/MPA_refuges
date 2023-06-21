@@ -5,7 +5,7 @@ Produces the various analyses and figures associated with "Do habitat refuges ma
 
 ## How to use
 
-These scripts are designed to be used with a high performance computer running the Slurm Workload Manager. They were specifically designed for the University of Cambridge's Icelake nodes. The instructions below are designed for replication in that environment, but with minor changes the analysis should be reproducible on any system. Notes on how to make those changes depending on the system you are on are included at the bottom of this readme.
+These scripts are designed to be used with a high performance computer running the Slurm Workload Manager. They were specifically designed for the University of Cambridge's Icelake nodes. The instructions below are designed for replication in that environment, but with minor changes the analysis should be reproducible on any system. Notes on how to make those changes depending on the system you are on are included at the bottom of this readme. If you need help with any aspect of reproducibility with the code please get in touch and I'll be happy to help.
 
 ### To replicate the figures in the manuscript using the University of Cambridge HPC cluster
 
