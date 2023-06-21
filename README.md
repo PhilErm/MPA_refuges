@@ -22,7 +22,7 @@ The instructions below assume you have connected to the HPC and moved the reposi
 
 Before considering reproducibility outside of the University of Cambridge HPC cluster it is useful to have a sense of the key scripts and how they interact in the workflow.
 
-Each level of overlap for each scenario has 3 unique scripts. For a particular example:
+Each level of overlap for each scenario has 3 unique scripts. E.g. for a particular scenario:
 `facil_log_mig_adam_ovr02_fishfav_sens_catch05.R`
 `HPC_log_mig_adam_ovr02_fishfav_sens_catch05.slurm`
 `pars_log_mig_adam_ovr02_fishfav_sens_catch05.R`
@@ -31,11 +31,11 @@ To manually run this particular simulation, one would need to send `HPC_log_mig_
 
 That means, if you need to run the script on a computer without Slurm, all you need to do is run `facil_log_mig_adam_ovr02_fishfav_sens_catch05.R` in R and the eventual output should be identical. To easily do this across all simulation scripts, a simple bash script that sends all of the "facil" scripts to R should be sufficient. If you need help with such a script or any other aspect of reproducibility with the code please get in touch and I'll be happy to help.
 
-To easily run the script on another HPC, the .slurm scripts will need to be modified to accomodate the particular requirements of the HPC in question. This will change depending on the HPC, but will probably involve nominating your chosen partition, making sure job clock times are suitable etc.
+To easily run the script on another HPC, the Slurm scripts will need to be modified to accomodate the particular requirements of the HPC in question. This will change depending on the HPC, but will probably involve nominating your chosen partition, making sure job clock times are suitable etc.
 
 ### If not rerunning simulations
 
-This repository already contains the processed data files used to generate the final figures included in the manuscript. As such, if you don't want to rerun the simulations themselves, after cloning the repository you can generate all figures if you:
+The repository already contains the processed data files used to generate the final figures included in the manuscript. As such, if you don't want to rerun the simulations themselves, after cloning the repository you can generate all figures if you:
 
 1. Run "analysis_sens_summary_figures.R" in R to generate the figures used in the manuscript. The instructions for running the script are included in the script itself.
 2. Run "supplementary_model.R" in R to generate the animations produced by the supplementary model. The instructions for running the script are included in the script itself.
