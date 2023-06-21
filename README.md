@@ -18,7 +18,7 @@ The instructions below assume you have connected to the HPC and moved the reposi
 3. Once all jobs are complete, run "analysis_sens_summary_figures.R" in R to generate the figures used in the manuscript. The instructions for running the script are included in the script itself.
 4. To generate the animations produced by the supplementary model, run "supplementary_model.R" in R. The instructions for running the script are included in the script itself.
 
-## Notes on reproducibility outside of the University of Cambridge HPC cluster
+### Notes on reproducibility outside of the University of Cambridge HPC cluster
 
 Before considering reproducibility outside of the University of Cambridge HPC cluster it is useful to have a sense of the key scripts and how they interact in the workflow.
 
@@ -33,7 +33,7 @@ That means, if you need to run the script on a computer without Slurm, all you n
 
 To easily run the script on another HPC, the .slurm scripts will need to be modified to accomodate the particular requirements of the HPC in question. This will change depending on the HPC, but will probably involve nominating your chosen partition, making sure job clock times etc. are suitable etc.
 
-## If not rerunning simulations
+### If not rerunning simulations
 
 This repository already contains the processed data files used to generate the final figures included in the manuscript. As such, if you don't want to rerun the simulations themselves, after cloning the repository you can generate all figures if you:
 
