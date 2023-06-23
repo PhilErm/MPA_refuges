@@ -1,7 +1,7 @@
-# Scripts for *Do habitat refuges make marine protected areas redundant?*
+# Scripts for *Do natural refuges make marine protected areas redundant for biodiversity conservation and fisheries management?*
 
 ## About
-Produces the various analyses and figures associated with "Do habitat refuges make marine protected areas redundant?".
+Produces the various analyses and figures associated with "Do natural refuges make marine protected areas redundant for biodiversity conservation and fisheries management?".
 
 ## How to use
 
