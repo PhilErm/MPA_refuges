@@ -1,7 +1,7 @@
-# Scripts for *Do natural refuges make marine protected areas redundant for biodiversity conservation and fisheries management?*
+# Scripts for *Marine protected areas can benefit biodiversity even when bycatch species only partially overlap fisheries*
 
 ## About
-Produces the various analyses and figures associated with "Do natural refuges make marine protected areas redundant for biodiversity conservation and fisheries management?".
+Produces the various analyses and figures associated with "Marine protected areas can benefit biodiversity even when bycatch species only partially overlap fisheries".
 
 ## How to use
 
