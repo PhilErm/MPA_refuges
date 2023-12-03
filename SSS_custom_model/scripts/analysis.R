@@ -667,7 +667,7 @@ grand.list <- foreach(w = 1:n.sims, #XYZ
                         #catch.spec <- c(catch.spec, targ.species.MSY*0.67)
 
                         # Comment out below 1 line if uncommenting two above
-                        catch.spec <- targ.species.MSY*0.9
+                        catch.spec <- targ.species.MSY*0.5
 
                         ### Produce spectrum of spared patches to explore ####
                         
