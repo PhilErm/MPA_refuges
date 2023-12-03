@@ -1,11 +1,15 @@
+#XYZ is parallel marker
+
+# SCRIPT BEGINS HERE ####
+
 # Script details ####
 
-# This is the script that does the actual simulating used in the main analysis. As such, it is called on by the various scenario scripts,
-# and changes to it will affect all simulations.
+# Script for conducting sea sparing/sharing analysis in 
+# XXXX
 
-# This script originated as part of a larger, more flexible modelling framework, and so has many options that aren't relevant to 
-# the manuscript. Many of these are experimental or outdated and will not necessarily work as described or expected.
-# They are best left alone.
+# Script structure ####
+
+# Write structure of loop here
 
 # Run analysis ####
 
@@ -20,20 +24,24 @@ all.species.habitat.list <- list() # This list is for saving habitats in matrix 
 path <- paste("../figs/raw_analysis", simulation.name, sep = "/")
 dir.create(path)
 
+# Initialise progress bar ####
+
 # Set parallel settings ####
-parallel::detectCores()
-max.cores <- parallel::detectCores()
-# Check if using a 50 core computer (i.e. the UoC HPC). If not, check how many cores current computer has and adjust from there
-if(max.cores < 50){
-  n.cores <- max.cores - 2
-} else {
-  n.cores <- 50
-}
+# From https://www.blasbenito.com/post/02_parallelizing_loops_with_r/
+
+parallel::detectCores() #marker
+max.cores <- parallel::detectCores() #marker
+if(max.cores < 50){ #marker
+  n.cores <- max.cores - 2 #marker
+} else { #marker
+  n.cores <- 50 #marker
+} #marker
 
 my.cluster <- parallel::makeCluster(
   n.cores,
   type = "PSOCK"
 )
+print(my.cluster)
 doParallel::registerDoParallel(cl = my.cluster)
 foreach::getDoParRegistered()
 foreach::getDoParWorkers()
@@ -43,27 +51,28 @@ registerDoSNOW(my.cluster)
 
 start.time <- Sys.time() # Record start time for main body of script
 
-# Create a list for saving parallel processed results
-grand.list <- foreach(w = 1:n.sims,
-                      .packages = c('data.table',
-                                    'tidyverse',
-                                    'beepr', 
-                                    'progress',
+grand.list <- foreach(w = 1:n.sims, #XYZ
+                      .packages = c('data.table', #XYZ
+                                    'tidyverse',  #XYZ
+                                    'beepr',  #XYZ
+                                    'progress', #XYZ
                                     'faux',
                                     'ggcorrplot',
-                                    'patchwork'),
-                      .verbose = T) %dopar% { 
+                                    'patchwork'), #XYZ
+                      .verbose = T) %dopar% { #XYZ
                         
-                        ## Set seed ####
-                     
-                        #w <- 1 # For testing
-                        set.seed(w) 
-                        
-                        source("functions.R")
+                        #                         ## Set seed ####
+                        #                         
+                        #w <- 1 #XYZ
+                        set.seed(w) #XYZ
+                        source("functions.R") # To avoid missing function error from parallelisation
                         
                         ## Analysis ####
                         
                         ### Generate non-targeted species in seascape ####
+                        
+                        # SECTION DESCRIPTION/NOTES
+                        # Here we generate the parameter distributions from which parameters from individual species will be drawn, and then draw the species. We also specify other species parameters in a variety of ways
                         
                         # Calculate standard deviations from confidence intervals
                         dist.pars$log.sd.q <- sd.from.upper(dist.pars$mean.q, dist.pars$upci.q)
@@ -78,7 +87,6 @@ grand.list <- foreach(w = 1:n.sims,
                                                     name = dist.pars$class)
                         
                         ### Specify non-targeted species migration rate (m) ####
-                        
                         if(mig.rate.option==1){ # 1 = Manually set identical migration rates (m) for all non-targeted species
                           non.targ.species$m <- custom.m
                         } else if (mig.rate.option==2){ # 2 = Migration rates drawn from uniform distribution with specified parameters
@@ -92,7 +100,6 @@ grand.list <- foreach(w = 1:n.sims,
                         non.targ.species$a <- non.targeted.a
                         
                         ### Mitigate chaos in non-targeted species ####
-                        
                         if (chaos.man.option == 1){ # 1 = Chaotic dynamics are not curtailed in any way
                           NULL
                         } else if (chaos.man.option == 2){ # 2 = Species with r above/below a specified threshold will have their r value reduced/raised to that threshold
@@ -104,7 +111,6 @@ grand.list <- foreach(w = 1:n.sims,
                         }
                         
                         ### Produce habitats for each non-targeted species ####
-                        
                         non.targ.habitat.list <- list()
                         if(non.targ.habitat.option==1.1){ # 1.1 = all non-targeted species share the same habitat
                           habitat <- vector("numeric", length = n.patches)
@@ -212,6 +218,9 @@ grand.list <- foreach(w = 1:n.sims,
                         } else if (non.targ.habitat.option==4.2){ # 4.2 = multivariate normal distribution where non-targeted species are generated based off pre-existing targeted species
                           habitat.search.iter <- 1
                           repeat{
+                            
+                            # Add in checks to make sure that neither targeted nor non-targeted species have 0 across the board
+                            
                             # Generate targeted species habitat
                             targ.habitat <- rnorm(n = n.patches,
                                                   mean = habitat.mean,
@@ -258,6 +267,7 @@ grand.list <- foreach(w = 1:n.sims,
                             for (i in seq_along(non.targ.species$species)){
                               non.targ.habitat.list[[paste(non.targ.species$species[i])]] <- habitat[,i]
                             }
+                            
                             
                             # Compare correlations
                             p <- c1.before + c1.after
@@ -511,7 +521,6 @@ grand.list <- foreach(w = 1:n.sims,
                         } else if (targ.habitat.option==7.1){ # 7.1 = manually specifying targeted species
                           targ.habitat <- targ.habitat
                         }
-                        
                         #### View habitat for particular species ####
                         
                         # Targeted species
@@ -564,6 +573,8 @@ grand.list <- foreach(w = 1:n.sims,
                         ### Produce spectrum of catches to explore based on targeted species MSY ####
                         
                         targ.species.MSY <- (targ.species$r*targ.species$k)/4/catch.divisor
+                        
+                        ###### INSERT MSY FINDER HERE ######
                         
                         # Define functions
                         # Define growth function
@@ -649,12 +660,14 @@ grand.list <- foreach(w = 1:n.sims,
                         (targ.species.MSY <- catch.constraint)
                         (MSY.search.iter)
                         
+                        ##### END MSY FINDER ######
+                        
                         # Uncomment below 2 lines to explore broader spectrum of catches
                         #catch.spec <- seq(targ.species.MSY/n.catch.ints, targ.species.MSY, targ.species.MSY/n.catch.ints)
                         #catch.spec <- c(catch.spec, targ.species.MSY*0.67)
 
                         # Comment out below 1 line if uncommenting two above
-                        catch.spec <- targ.species.MSY*0.67
+                        catch.spec <- targ.species.MSY*0.9
 
                         ### Produce spectrum of spared patches to explore ####
                         
@@ -947,6 +960,10 @@ grand.list <- foreach(w = 1:n.sims,
                         
                         ## Simulate non-targeted species ####
                         
+                        # BENCHMARK START ####
+                        start.bench <- Sys.time() 
+                        
+                        # New code
                         # Define growth function
                         nt.growth.function <- growth.function.list[[non.targeted.growth.option]]
                         
@@ -1258,26 +1275,26 @@ grand.list <- foreach(w = 1:n.sims,
                           geom_hline(yintercept = 0, linetype = "dotted") +
                           theme_bw()
                         
-                        #list(targeted.sims.list[[w]], non.targeted.sims.list[[w]], carbon.sims.list[[w]], all.species.habitat.list[[w]])
-                        list(targeted.sims.list[[w]], non.targeted.sims.list[[w]], carbon.sims.list[[w]])
-                      }
+                        #list(targeted.sims.list[[w]], non.targeted.sims.list[[w]], carbon.sims.list[[w]], all.species.habitat.list[[w]]) #XYZ
+                        list(targeted.sims.list[[w]], non.targeted.sims.list[[w]], carbon.sims.list[[w]]) #XYZ
+                      } #XYZ
 
 # Note parallel list object
 # grand.list
 
-# End loop auxiliaries
+# End loop auxiliaries #XYZ
 stopCluster(my.cluster)
 
 # Split parallel list object into separate lists
-targeted.sims.list <- list()
-non.targeted.sims.list <- list()
-carbon.sims.list <- list()
-for(i in 1:n.sims){
-  targeted.sims.list[[i]] <- grand.list[[i]][[1]]
-  non.targeted.sims.list[[i]]  <- grand.list[[i]][[2]]
+targeted.sims.list <- list()  #XYZ
+non.targeted.sims.list <- list() #XYZ
+carbon.sims.list <- list() #XYZ
+for(i in 1:n.sims){ #XYZ
+  targeted.sims.list[[i]] <- grand.list[[i]][[1]] #XYZ
+  non.targeted.sims.list[[i]]  <- grand.list[[i]][[2]] #XYZ
   carbon.sims.list[[i]]  <- grand.list[[i]][[3]]
-  #all.species.habitat.list[[i]]  <- grand.list[[i]][[4]]
-}
+  #all.species.habitat.list[[i]]  <- grand.list[[i]][[4]] #XYZ
+} #XYZ
 
 # Reduce lists to single data frames
 targeted.sim.data <- rbindlist(targeted.sims.list)
@@ -1288,7 +1305,7 @@ carbon.sim.data <- rbindlist(carbon.sims.list)
 rm(targeted.sims.list)
 rm(non.targeted.sims.list)
 rm(carbon.sims.list)
-rm(grand.list)
+rm(grand.list) #marker
 
 # Change columns to appropriate types and calculate catch as proportion of MSY
 # Targeted data
@@ -1323,4 +1340,15 @@ carbon.sim.data$sparedProp <- carbon.sim.data$sparing/n.patches
 carbon.sim.data$simulation <- as.factor(carbon.sim.data$simulation)
 carbon.sim.data$patch <- as.factor(carbon.sim.data$patch)
 carbon.sim.data$spared <- as.factor(carbon.sim.data$spared)
+
+# Optimisation testing zone #### #XYZ
+#old.data <- non.targeted.sim.data # XYZ
+#all(old.data == non.targeted.sim.data) #XYZ
+# XYZ
+#gdata::keep(old.data, sure = TRUE) # XYZ # Run this when starting a new optimisation run to see if anything changed in the output
+#end.bench <- Sys.time()
+#tot.bench <- end.bench - start.bench
+#tot.bench
 beep()
+
+# BENCHMARK END ####

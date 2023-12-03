@@ -7,7 +7,7 @@
 
 ## Simulation ####
 
-simulation.name <- "log_mig_adamtarg_ovr10_fishfav_sens_catch09tdam_sens"
+simulation.name <- "log_mig_adamtarg_ovr10_fishfav_sens_catch09tdam"
 n.sims <- 50 # Number of simulations
 n.time <- 150 # Length of simulations
 n.species <- 10 # Number of species drawn from each class
