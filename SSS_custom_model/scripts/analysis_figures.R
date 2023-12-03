@@ -1725,16 +1725,24 @@ ggsave(filename = png.path, p, width = 20, height = 20, units = "cm")
 
 collapsed.data <- non.targeted.sim.data %>% 
   group_by(sparing,sparedProp,MSYProp,time.step,species, simulation) %>% 
-  summarise(total = sum(abun), carrying = sum(k)) %>% 
+  summarise(total = sum(abun), carrying = 10) %>% # Now hardcoded to 10 since manuscript makes sure all species have 10 patches. Previously `sum(k)`
   mutate(proportion = total/carrying) %>% 
   mutate(collapse = if_else(proportion < ext.thresh,T,F)) %>% 
+  mutate(collapse05 = if_else(proportion < 0.5,T,F)) %>% 
+  mutate(collapse01 = if_else(proportion < 0.1,T,F)) %>% 
   group_by(sparing,sparedProp,MSYProp,time.step, simulation) %>% 
-  summarise(no.collapsed = sum(collapse), no.healthy = sum(!collapse)) %>%
-  mutate(prop.collapsed = no.collapsed/(no.healthy+no.collapsed))
+  summarise(no.collapsed = sum(collapse), no.healthy = sum(!collapse),
+            no.collapsed05 = sum(collapse05), no.healthy05 = sum(!collapse05),
+            no.collapsed01 = sum(collapse01), no.healthy01 = sum(!collapse01)) %>%
+  mutate(prop.collapsed = no.collapsed/(no.healthy+no.collapsed)) %>%
+  mutate(prop.collapsed05 = no.collapsed05/(no.healthy05+no.collapsed05)) %>%
+  mutate(prop.collapsed01 = no.collapsed01/(no.healthy01+no.collapsed01))
 
 collapsed.data.mean <- collapsed.data %>% 
   group_by(sparing,sparedProp,MSYProp,time.step) %>% 
-  summarise(prop.collapsed.mean = mean(prop.collapsed))
+  summarise(prop.collapsed.mean = mean(prop.collapsed),
+            prop.collapsed.mean05 = mean(prop.collapsed05),
+            prop.collapsed.mean01 = mean(prop.collapsed01)) 
 
 p <- ggplot() +
   geom_line(data = collapsed.data, aes(x = time.step, y =prop.collapsed, group = simulation), alpha = 0.2) +
